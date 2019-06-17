@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zty.Mapper.TMetricsMapper">
+
+    <insert id="addTMetrics" parameterType="com.zty.entity.TMetrics">
+        <selectKey keyProperty="metricId" order="BEFORE" resultType="Integer">
+            select SEQ_METRIC.nextval from dual
+        </selectKey>
+        insert into T_METRICS
+        values(
+        #{metricId},
+        #{metricName},
+        #{metricCatagory},
+        #{metricType},
+        #{metricCode},
+        #{metricStatus},
+        #{creator},
+        #{createDate},
+        #{comments})
+    </insert>
+    <select id="queryTotal" resultType="Integer">
+        select count(*) from
+        (
+        select
+        METRIC_ID metricId,
+        METRIC_NAME metricName,
+        METRIC_CATAGORY metricCatagory,
+        METRIC_TYPE metricType,
+        METRIC_CODE metricCode,
+        METRIC_STATUS metricStatus,
+        CREATOR creator,
+        CREATE_DATE createDate,
+        COMMENTS comments
+        from T_METRICS
+        <where>
+            1=1
+            <if test="metricName!=null">
+                and METRIC_NAME = #{metricName}
+            </if>
+            <if test="metricType!=null">
+                and METRIC_TYPE = #{metricType}
+            </if>
+        </where>
+        )
+    </select>
+    <select id="pageRows" resultType="com.zty.entity.TMetrics">
+        select k.* from
+        (select j.*,rownum rn from
+        (select
+        METRIC_ID metricId,
+        METRIC_NAME metricName,
+        METRIC_CATAGORY metricCatagory,
+        METRIC_TYPE metricType,
+        METRIC_CODE metricCode,
+        METRIC_STATUS metricStatus,
+        CREATOR creator,
+        CREATE_DATE createDate,
+        COMMENTS comments
+        from T_METRICS
+        <where>
+            1=1
+            <if test="metricName!=null">
+                and METRIC_NAME = #{metricName}
+            </if>
+            <if test="metricType!=null">
+                and METRIC_TYPE = #{metricType}
+            </if>
+        </where>
+        ) j
+        where
+        rownum &lt;=#{Page}*#{PageSize}
+        ) k
+        where rn>(#{Page}-1)*#{PageSize}
+    </select>
+<select id="queryTotalNoArgs" resultType="Integer">
+    select count(*) from T_METRICS
+</select>
+
+
+    <select id="queryAllCatagory" resultType="com.zty.entity.TMetrics">
+    select METRIC_CATAGORY metricCatagory
+    from T_METRICS group by METRIC_CATAGORY
+    </select>
+    <select id="queryMetricByCatagory" parameterType="Integer" resultMap="r3">
+        select METRIC_ID akey,METRIC_NAME title from  T_METRICS where  METRIC_CATAGORY = #{metricCatagory}
+    </select>
+    <resultMap id="r3" type="com.zty.entity.TreeData">
+        <result column="title" property="title"></result>
+        <result column="akey" property="key"></result>
+        <result column="akey" property="value"></result>
+    </resultMap>
+
+
+
+
+    <select id="queryMetrics" parameterType="Integer" resultType="com.zty.entity.TMetrics">
+
+      select metric_id,metric_name
+       from t_metrics where metric_catagory = #{taskType}
+
+    </select>
+</mapper>

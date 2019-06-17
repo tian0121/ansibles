@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zty.Mapper.TaskServersMapper">
+
+    <insert id="addTaskServers" parameterType="com.zty.entity.TaskServer">
+        insert into T_TASK_SERVERS
+        values (#{taskId},#{serverName},#{ipAddr})
+    </insert>
+    <select id="queryTask" resultType="com.zty.entity.TaskServer" parameterType="Integer">
+        select TASK_ID,SERVER_NAME ,IP_ADDR
+        from T_TASK_SERVERS
+        where TASK_ID = #{taskId}
+    </select>
+    <delete id="deleteTaskServer" parameterType="Integer">
+         DELETE FROM T_TASK_SERVERS WHERE TASK_ID = #{taskId}
+    </delete>
+</mapper>

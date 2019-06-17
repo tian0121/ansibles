@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zty.Mapper.TServerMapper">
+
+    <insert id="addServer" parameterType="com.zty.entity.TServers">
+        <selectKey keyProperty="serverId" order="BEFORE" resultType="Integer">
+            select SEQ_SERVER.nextval from dual
+        </selectKey>
+        insert into T_SERVERS
+        values(
+        #{serverId},
+        #{serverName},
+        #{ipAddr},
+        #{domain},
+        #{tags},
+        #{discovery},
+        #{serverStatus},
+        #{heartbeat},
+        #{createDate},
+        #{creator},
+        #{comments})
+    </insert>
+
+    <select id="queryTotal" resultType="Integer">
+                select count(*) from
+                (
+                select
+                server_id serverId,
+                SERVER_NAME serverName,
+                IP_ADDR ipAddr,
+                DOMAIN domain,
+                TAGS tags,
+                DISCOVERY discovery,
+                SERVER_STATUS serverStatus,
+                HEARTBEAT heartbeat,
+                CREATE_DATE createDate,
+                CREATOR creator,
+                COMMENTS comments
+                from T_SERVERS
+                <where>
+                    1=1
+                    <if test="serverName!=null">
+                        and server_name = #{serverName}
+                    </if>
+                    <if test="serverStatus!=null">
+                        and server_Status = #{serverStatus}
+                    </if>
+                </where>
+                )
+    </select>
+
+    <select id="pageRows" resultType="com.zty.entity.TServers">
+  		select k.* from
+     	(select j.*,rownum rn from
+      	(select
+      	server_id serverId,
+      	SERVER_NAME serverName,
+      	IP_ADDR ipAddr,
+      	DOMAIN domain,
+      	TAGS tags,
+      	DISCOVERY discovery,
+      	SERVER_STATUS serverStatus,
+      	HEARTBEAT heartbeat,
+      	CREATE_DATE createDate,
+      	CREATOR creator,
+      	COMMENTS comments
+      	from T_SERVERS
+      	<where>
+      	1=1
+      	<if test="serverName!=null">
+            and server_name = #{serverName}
+        </if>
+            <if test="serverStatus!=null">
+                and server_Status = #{serverStatus}
+            </if>
+      	</where>
+      	) j
+      	where
+      	 rownum &lt;=#{Page}*#{PageSize}
+        ) k
+        where rn>(#{Page}-1)*#{PageSize}
+    </select>
+    <select id="queryTotalNoArgs" resultType="Integer">
+        select count(*) from T_SERVERS
+    </select>
+
+
+    <select id="queryAllServers" resultType="com.zty.entity.TServers">
+
+        select SERVER_ID,SERVER_NAME from T_SERVERS
+
+    </select>
+</mapper>

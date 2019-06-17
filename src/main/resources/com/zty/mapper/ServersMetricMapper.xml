@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zty.Mapper.ServersMetricMapper">
+
+    <insert id="addServersMetrics" parameterType="com.zty.entity.ServerMetrics">
+        insert into T_TASK_METRICS (TASK_ID,METRIC_ID)
+        values (#{taskId},#{metricId})
+    </insert>
+    <delete id="deleteTaskMetric" parameterType="Integer" >
+
+        DELETE FROM T_TASK_METRICS WHERE TASK_ID = #{taskId}
+
+    </delete>
+</mapper>

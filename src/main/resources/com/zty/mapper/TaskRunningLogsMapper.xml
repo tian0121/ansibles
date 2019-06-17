@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zty.Mapper.TaskRunningLogsMapper">
+
+    <insert id="addTaskRunningLog" parameterType="com.zty.entity.TaskRunningLogs">
+        insert into T_TASK_RUNNING_LOGS
+        values (#{taskId},#{executeState},#{elapsedSeconds},#{taskFailureMsg},#{taskResult},#{createDate},#{executeDate},#{taskName})
+    </insert>
+
+    <select id="queryTotal" resultType="Integer">
+       select count(*) from t_tasks
+    </select>
+    <select id="queryTask" resultType="com.zty.entity.TTasks">
+        select k.* from
+        (select x.*,rownum rn from
+        (
+        select
+        t.Task_ID taskId,
+        t.TASK_NAME taskName,
+        t.TASK_TYPE taskType,
+        t.CREATE_DATE createDate,
+        t.CREATOR creator,
+        t.EXECUTE_DATE executeDate,
+        t.EXECUTE_STATE executeState,
+        t.ELAPSED_SECONDS elapsedSeconds,
+        t.EXECUTE_COUNTS executeCounts,
+        t.LAST_FAILURE_MSG lastFailureMsg
+        from t_tasks t
+        )x
+        where
+        rownum &lt;=#{Page}*#{PageSize}
+        ) k
+        where rn>(#{Page}-1)*#{PageSize}
+    </select>
+
+
+    <select id="queryTaskRunningLogs" resultType="com.zty.entity.TaskRunningLogs" parameterType="Integer">
+        select
+        m.task_id taskId,
+        m.execute_state executeState,
+        m.elapsed_seconds elapsedSecond,
+        m.task_failure_msg taskFailureMsg,
+        m.task_results taskResult,
+        m.create_date createDate,
+        m.execute_date executeDate,
+        m.task_name taskName
+        from t_task_running_logs m where m.task_id = #{taskId} order by executeDate desc
+    </select>
+
+
+
+<!--    <resultMap id="r1" type="com.zty.entity.TTasks">-->
+<!--        <id column="taskId" property="taskId"/>-->
+<!--        <result column="taskName" property="taskName"/>-->
+<!--        <result column="taskType" property="taskType"/>-->
+<!--        <result column="createDate" property="createDate"/>-->
+<!--        <result column="creator" property="creator"/>-->
+<!--        <result column="executeDate" property="executeDate"/>-->
+<!--        <result column="executeState" property="executeState"/>-->
+<!--        <result column="elapsedSeconds" property="elapsedSeconds"/>-->
+<!--        <result column="executeCounts" property="executeCounts"/>-->
+<!--        <result column="lastFailureMsg" property="lastFailureMsg"/>-->
+<!--        <collection property="taskRunningLogsList" ofType="com.zty.entity.TaskRunningLogs">-->
+<!--            <result column="mtaskId" property="taskId"></result>-->
+<!--            <result column="mexecuteState" property="executeState"></result>-->
+<!--            <result column="melapesdSecond" property="elapsedSecond"></result>-->
+<!--            <result column="melapesdSecond" property="elapsedSecond"></result>-->
+<!--            <result column="mtaskFailureMsg" property="taskFailureMsg"></result>-->
+<!--            <result column="mtaskResult" property="taskResult"></result>-->
+<!--            <result column="mcreateDate" property="createDate"></result>-->
+<!--            <result column="mcreateDate" property="createDate"></result>-->
+<!--            <result column="mexecuteDate" property="executeDate"></result>-->
+<!--            <result column="mtaskName" property="taskName"></result>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+</mapper>
+
+
+

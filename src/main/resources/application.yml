@@ -1,0 +1,36 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /ansible
+  tomcat:
+    accesslog:
+      buffered: true
+      directory: /root/logs
+      enabled: true
+      file-date-format: .yyyy-MM-dd
+      pattern: common
+      prefix: access_log
+      rename-on-rotate: false
+      request-attributes-enabled: true
+      rotate: true
+      suffix: .log
+spring:
+  datasource:
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+    url: jdbc:oracle:thin:@114.115.211.25:1521:sqlaudit
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    username: idbaas
+    password: v1g2m60id2499yz
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+mybatis:
+  type-aliases-package: com.zty.entity
+  mapper-locations: /com/zty/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+pagehelper:
+  helperDialect: oracle
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

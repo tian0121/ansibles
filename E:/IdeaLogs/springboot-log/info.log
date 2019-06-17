@@ -1,0 +1,30 @@
+2019-05-29-17-31 [background-preinit] [org.hibernate.validator.internal.util.Version] [INFO] - HV000001: Hibernate Validator 6.0.16.Final
+2019-05-29-17-31 [main] [com.zty.DemoApplication] [INFO] - Starting DemoApplication on root with PID 73914 (/root/IDEACode/ansible/target/classes started by root in /root/IDEACode/ansible)
+2019-05-29-17-31 [main] [com.zty.DemoApplication] [INFO] - No active profile set, falling back to default profiles: default
+2019-05-29-17-31 [main] [tk.mybatis.spring.mapper.ClassPathMapperScanner] [WARN] - No MyBatis mapper was found in '[com.zty]' package. Please check your configuration.
+2019-05-29-17-31 [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] [INFO] - Tomcat initialized with port(s): 8000 (http)
+2019-05-29-17-31 [main] [org.springframework.web.context.ContextLoader] [INFO] - Root WebApplicationContext: initialization completed in 3436 ms
+2019-05-29-17-31 [main] [org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor] [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2019-05-29-17-31 [MLog-Init-Reporter] [com.mchange.v2.log.MLog] [INFO] - MLog clients using slf4j logging.
+2019-05-29-17-31 [main] [com.mchange.v2.c3p0.C3P0Registry] [INFO] - Initializing c3p0-0.9.5.4 [built 23-March-2019 23:00:48 -0700; debug? true; trace: 10]
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear EntityHelper entityTableMap cache.
+2019-05-29-17-31 [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] [INFO] - Tomcat started on port(s): 8000 (http) with context path '/ansible'
+2019-05-29-17-31 [main] [com.zty.DemoApplication] [INFO] - Started DemoApplication in 7.458 seconds (JVM running for 18.977)
+2019-05-29-17-31 [background-preinit] [org.hibernate.validator.internal.util.Version] [INFO] - HV000001: Hibernate Validator 6.0.16.Final
+2019-05-29-17-31 [main] [com.zty.DemoApplication] [INFO] - Starting DemoApplication on root with PID 74028 (/root/IDEACode/ansible/target/classes started by root in /root/IDEACode/ansible)
+2019-05-29-17-31 [main] [com.zty.DemoApplication] [INFO] - No active profile set, falling back to default profiles: default
+2019-05-29-17-31 [main] [tk.mybatis.spring.mapper.ClassPathMapperScanner] [WARN] - No MyBatis mapper was found in '[com.zty]' package. Please check your configuration.
+2019-05-29-17-31 [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] [INFO] - Tomcat initialized with port(s): 8000 (http)
+2019-05-29-17-31 [main] [org.springframework.web.context.ContextLoader] [INFO] - Root WebApplicationContext: initialization completed in 3168 ms
+2019-05-29-17-31 [main] [org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor] [INFO] - Initializing ExecutorService 'applicationTaskExecutor'
+2019-05-29-17-31 [MLog-Init-Reporter] [com.mchange.v2.log.MLog] [INFO] - MLog clients using slf4j logging.
+2019-05-29-17-31 [main] [com.mchange.v2.c3p0.C3P0Registry] [INFO] - Initializing c3p0-0.9.5.4 [built 23-March-2019 23:00:48 -0700; debug? true; trace: 10]
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+2019-05-29-17-31 [main] [tk.mybatis.mapper.autoconfigure.MapperCacheDisabler] [INFO] - Clear EntityHelper entityTableMap cache.
+2019-05-29-17-31 [main] [org.springframework.boot.web.embedded.tomcat.TomcatWebServer] [INFO] - Tomcat started on port(s): 8000 (http) with context path '/ansible'
+2019-05-29-17-31 [main] [com.zty.DemoApplication] [INFO] - Started DemoApplication in 6.855 seconds (JVM running for 18.177)

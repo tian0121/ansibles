@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zty.Mapper.TTaskMapper">
+
+<resultMap id="r1" type="com.zty.entity.TasksAndServers">
+    <id column="taskId" property="taskId"/>
+    <result column="taskName" property="taskName"/>
+    <result column="taskType" property="taskType"/>
+    <result column="createDate" property="createDate"/>
+    <result column="creator" property="creator"/>
+    <result column="executeDate" property="executeDate"/>
+    <result column="executeState" property="executeState"/>
+    <result column="elapsedSeconds" property="elapsedSeconds"/>
+    <result column="executeCounts" property="executeCounts"/>
+    <result column="lastFailureMsg" property="lastFailureMsg"/>
+    <collection property="serverList" javaType="list" ofType="com.zty.entity.TServers">
+        <id column="sserverId" property="serverId"/>
+        <result column="sserverName" property="serverName"/>
+        <result column="sipAddr" property="ipAddr"/>
+        <result column="sdomain" property="domain"/>
+        <result column="stags" property="tags"/>
+        <result column="sdiscovery" property="discovery"/>
+        <result column="sserverStatus" property="serverStatus"/>
+        <result column="sheartbeat" property="heartbeat"/>
+        <result column="screateDate" property="createDate"/>
+        <result column="screator" property="creator"/>
+        <result column="scomments" property="comments"/>
+    </collection>
+</resultMap>
+
+
+
+
+
+    <insert id="addTask" parameterType="com.zty.entity.TTasks">
+        <selectKey keyProperty="taskId" order="BEFORE" resultType="Integer">
+            select SEQ_TASK.nextval from dual
+        </selectKey>
+        insert into T_TASKS
+        values(
+        #{taskId},
+        #{taskName},
+        #{taskType},
+        #{createDate},
+        #{creator},
+        #{executeDate},
+        #{executeState},
+        #{elapsedSeconds},
+        #{executeCounts},
+        #{lastFailureMsg})
+    </insert>
+
+
+    <select id="queryTotal" resultType="Integer">
+        select count(*) from
+        (
+        (select
+        t.Task_ID taskId,
+        t.TASK_NAME taskName,
+        t.TASK_TYPE taskType,
+        t.CREATE_DATE createDate,
+        t.CREATOR creator,
+        t.EXECUTE_DATE executeDate,
+        t.EXECUTE_STATE executeState,
+        t.ELAPSED_SECONDS elapsedSeconds,
+        t.EXECUTE_COUNTS executeCounts,
+        t.LAST_FAILURE_MSG lastFailureMsg,
+        j.TASK_ID jtaskId,
+        j.SERVER_NAME jserverName,
+        j.IP_ADDR jipAddr,
+        s.SERVER_ID sserverId,
+        s.SERVER_NAME sserverName,
+        s.IP_ADDR sipAddr,
+        s.DOMAIN sdomain,
+        s.tags stags,
+        s.discovery sdiscovery,
+        s.server_status sserverStatus,
+        s.heartbeat sheartbeat,
+        s.create_date screateDate,
+        s.creator screator,
+        s.comments scomments
+        from T_TASkS t left join T_TASK_SERVERS j on t.task_ID=j.TASK_ID
+        left join T_SERVERS s on s.server_name=j.server_name
+        <where>
+            1=1
+            <if test="executeState!=null">
+                and t.execute_state = #{executeState}
+            </if>
+            <if test="taskName!=null">
+                and t.task_Name = #{taskName}
+            </if>
+        </where>
+        ) x
+        )
+    </select>
+    <select id="queryTasksServer" resultMap="r1">
+        select k.* from
+        (select x.*,rownum rn from
+        (select
+        t.Task_ID taskId,
+        t.TASK_NAME taskName,
+        t.TASK_TYPE taskType,
+        t.CREATE_DATE createDate,
+        t.CREATOR creator,
+        t.EXECUTE_DATE executeDate,
+        t.EXECUTE_STATE executeState,
+        t.ELAPSED_SECONDS elapsedSeconds,
+        t.EXECUTE_COUNTS executeCounts,
+        t.LAST_FAILURE_MSG lastFailureMsg,
+        j.TASK_ID jtaskId,
+        j.SERVER_NAME jserverName,
+        j.IP_ADDR jipAddr,
+        s.SERVER_ID  sserverId,
+        s.SERVER_NAME  sserverName,
+        s.IP_ADDR  sipAddr,
+        s.DOMAIN sdomain,
+        s.tags  stags,
+        s.discovery  sdiscovery,
+        s.server_status  sserverStatus,
+        s.heartbeat  sheartbeat,
+        s.create_date  screateDate,
+        s.creator  screator,
+        s.comments  scomments
+        from T_TASkS t left join T_TASK_SERVERS j on t.task_ID=j.TASK_ID
+        left join T_SERVERS s on s.server_name=j.server_name
+         <where>
+          1=1
+          <if test="executeState!=null">
+             and t.execute_state = #{executeState}
+          </if>
+             <if test="taskName!=null">
+             and t.task_Name = #{taskName}
+             </if>
+         </where>
+        ) x
+        where
+        rownum &lt;=#{Page}*#{PageSize}
+        ) k
+        where rn>(#{Page}-1)*#{PageSize}
+    </select>
+
+
+    <resultMap id="r2" type="com.zty.entity.TMetrics">
+                <id column="emetricId" property="metricId"/>
+                <result column="emetricName" property="metricName"/>
+                <result column="emetricCatagory" property="metricCatagory"/>
+                <result column="emetricType" property="metricType"/>
+                <result column="emetricCode" property="metricCode"/>
+                <result column="emetricStatus" property="metricStatus"/>
+                <result column="ecreator" property="creator"/>
+                <result column="ecreateDate" property="createDate"/>
+                <result column="ecomments" property="comments"/>
+    </resultMap>
+    <select id="queryTasksMetrics" parameterType="Integer" resultMap="r2">
+       select
+        t.Task_ID ttaskId,
+        j.TASK_ID jtaskId,
+        j.metric_id jmetricId,
+        e.METRIC_ID emetricId,
+        e.METRIC_NAME emetricName,
+        e.METRIC_CATAGORY emetricCatagory,
+        e.METRIC_TYPE emetricType,
+        e.METRIC_CODE emetricCode,
+        e.METRIC_STATUS emetricStatus,
+        e.CREATOR ecreator,
+        e.CREATE_DATE ecreateDate,
+        e.COMMENTS ecomments
+        from T_TASKS t LEFT JOIN T_TASK_METRICS j on j.task_id = t.task_id
+        left join T_METRICS e on e.metric_id = j.metric_id
+        where t.task_id = #{taskId}
+    </select>
+
+    <select id="queryTotalNoArgs" resultType="Integer">
+        select count(*) from T_TASkS
+    </select>
+    <update id="updateExecuteCounts" parameterType="com.zty.entity.TTasks">
+
+    UPATE T_TASKS SET EXECUTE_STATE = #{executeState} , ELAPSED_SECONDS = #{elapsedSeconds} , EXECUTE_COUNTS = #{executeCounts} , LAST_FAILURE_MSG = #{lastFailureMsg}
+    where TASK_ID = #{taskId}
+
+    </update>
+</mapper>
